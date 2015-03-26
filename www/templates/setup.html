@@ -1,0 +1,29 @@
+<ion-view view-title="setup">
+  <ion-header-bar class="bar-stable">
+    <h1 class="title">setup</h1>
+  </ion-header-bar>
+  <ion-content>
+    <center>
+    <img src="img/hourglassSetup.svg" width = 300 id="hourglassSetup"></img>
+    </center>
+    <div class="list">
+	  <div class="item range range-positive">
+	    <i class="icon ion-clock"></i>
+	    <p class="sideMenuLabel">duration</p>
+	    <input id = "duration" type="range" name="volume" min="30" max="90" value="{{durVal}}" ng-model="durVal">
+	    <p id="sliderValue">{{durVal}} min</p>
+	  </div>
+	  <div class="item range range-positive">
+	    <i class="icon ion-speedometer"></i>
+	    <p class="sideMenuLabel">frequency</p>
+	    <input id = "frequency" type="range" name="volume" min="2" max="30" value="{{freqVal}}" ng-model="freqVal">
+	    <p id="sliderValue">{{freqVal}} min</p>
+	  </div>
+	  <div class="item item-button-right">
+    	<p>
+        <a class="button icon icon-right ion-chevron-right" ui-sref="takePhoto">start</a>
+      </p>
+  	</div>
+	</div>
+  </ion-content>
+</ion-view>
