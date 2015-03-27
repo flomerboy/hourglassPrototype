@@ -42,26 +42,65 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.services', 'myFactory'
     $urlRouterProvider.otherwise('/setup')
   })
 
+  // controller for the settings page
   .controller('MainCtrl', function($scope, Camera, $localstorage) {
-    console.log("MainCtrl");
+    console.log("using the 'MainCtrl' controller");
 
+    // basically initializing them to 60 and 10, if the user has old settings
+    // it will remember them
     $scope.durVal = $localstorage.get('durVal',60);
-    $scope.freqVal =  $localstorage.get('freqVal',10)
+    $scope.freqVal =  $localstorage.get('freqVal',10);
 
     $scope.setSettings = function(newDurVal, newFreqVal){
+
+        // This sets durVal and freqVal equal to the newDurVal and newFreqVal that we passed in
         $localstorage.set('durVal',newDurVal);
         $localstorage.set('freqVal',newFreqVal);
+
+        // This does two things, it defines our scope's durVal & freqVal based on what's in the local storage
+        // and if it doesn't find anything, it reverts to those default values
         $scope.durVal = $localstorage.get('durVal',60);
         $scope.freqVal =  $localstorage.get('freqVal',10)
-        console.log('newDurVal ' + newDurVal);
-        console.log('newFreqVal ' + newFreqVal);
+        
+        // log the inputs that are passed in
+        console.log('passed in DurVal ' + newDurVal);
+        console.log('passed in FreqVal ' + newFreqVal);
+
+        // log what we can read from the local storage
         console.log('durVal ' + $localstorage.get('durVal','durVal undefined'));
         console.log('freqVal '+ $localstorage.get('freqVal','freqVal undefined'));
     };
   })
 
-  .controller('PhotoCtrl', function(Camera, $scope, $localstorage) {
-    console.log("PhotoCtrl");
+  //this is the controller for taking photos
+  .controller('PhotoCtrl', function(Camera, $scope, $localstorage, $timeout, $interval) {
+    console.log("using the 'PhotoCtrl' controller");
+
+    $scope.durVal = $localstorage.get('durVal',60);
+    $scope.freqVal =  $localstorage.get('freqVal',10);
+    var photosCount = parseInt($scope.durVal / $scope.freqVal);
+    $scope.photosTaken = 0;
+
+    // print them out for sanity
+    console.log('duration:            ' + $scope.durVal);
+    console.log('frequency:           ' + $scope.freqVal);
+    console.log('total no. of photos: ' + photosCount);
+    
+    // this function doesn't do anything except for console.log
+    $scope.callAtInterval = function() {
+        console.log("$scope.callAtInterval - Interval occurred");
+    }
+
+    // every three seconds, call function
+    $interval( function(){ $scope.callAtInterval(); }, 3000);
+
+    // this function doesn't do anything except for console.log
+    $scope.callAtTimeout = function() {
+        console.log("$scope.callAtInterval - Timeout occurred");
+    }
+
+    // every three seconds, call function
+    $timeout( function(){ $scope.callAtTimeout(); }, 10000);
 
     $scope.getPhoto = function() {
       Camera.getPicture().then(function(imageURI) {
@@ -75,5 +114,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.services', 'myFactory'
         targetHeight: 320,
         saveToPhotoAlbum: false
       });
+      $scope.photosTaken++;
     };
   });

@@ -1,5 +1,6 @@
 angular.module('myFactory', [])
 
+// this is a factory that lets you set or get values or objects
 .factory('$localstorage', ['$window', function($window) {
   return {
     set: function(key, value) {

@@ -1,0 +1,11 @@
+<!-- This is the template for selecting a photo to tweet-->
+
+<ion-view title="selectPhoto">
+	<ion-header-bar class="bar-stable">
+		<h1 class="title">select</h1>
+	</ion-header-bar>
+	<ion-content padding="true">
+	    <button class="button button-block button-primary" ng-click="getPhoto()">get a Picture</button>
+	    <img style="max-width=90%" id="myImage" ng-src="{{lastPhoto}}"></img>
+	</ion-content>
+</ion-view>

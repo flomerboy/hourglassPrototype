@@ -5,7 +5,13 @@
 		<h1 class="title">Photo</h1>
 	</ion-header-bar>
 	<ion-content padding="true">
-	    <button class="button button-block button-primary" ng-click="getPhoto()">get a Picture</button>
-	    <img id="myImage" ng-src="{{lastPhoto}}"></img>
+		<center>
+			<img height=270 src="img/glassGIF2.gif" style="position: absolute; top: 30px;"/>
+	  		<img src="img/glassGIF.gif" style="position: relative; top: 0; left: 0;"/>
+		    <button class="button button-block button-primary" ng-click="getPhoto()">get a Picture</button>
+		    <p ng-model="photosTaken">{{photosTaken}}</p>
+		    <img style="max-width=90%" id="myImage" ng-src="{{lastPhoto}}"></img>
+
+	    </center>
 	</ion-content>
 </ion-view>
