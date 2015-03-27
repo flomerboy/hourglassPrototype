@@ -18,7 +18,11 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.services', 'myFactory'
     });
   })
 
-  .config(function($stateProvider, $urlRouterProvider) {
+  .config(function($stateProvider, $urlRouterProvider, $compileProvider) {
+
+    // honestly not sure what this does. probably something to make sure that the image is legible angular
+    $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
+
     $stateProvider
 
     // what the state is called
@@ -31,15 +35,23 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.services', 'myFactory'
       controller: 'PhotoCtrl'
       })
 
-
-
     .state('setup', {
       url: '/setup',
       templateUrl: 'templates/setup.html',
       controller: 'MainCtrl'
     })
 
+    .state('selectPhoto', {
+      url: '/selectPhoto',
+      templateUrl: 'templates/selectPhoto.html',
+      controller: 'SelectCtrl'
+    })
+
     $urlRouterProvider.otherwise('/setup')
+
+    // function($compileProvider){
+    //   $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
+    // }
   })
 
   // controller for the settings page
@@ -73,21 +85,29 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.services', 'myFactory'
   })
 
   //this is the controller for taking photos
-  .controller('PhotoCtrl', function(Camera, $scope, $localstorage, $timeout, $interval) {
+  .controller('PhotoCtrl', function(Camera, $scope, $localstorage, $timeout, $interval, $location) {
     console.log("using the 'PhotoCtrl' controller");
 
     $scope.durVal = $localstorage.get('durVal',60);
     $scope.freqVal =  $localstorage.get('freqVal',10);
     var photosCount = parseInt($scope.durVal / $scope.freqVal);
     $scope.photosTaken = 0;
+    $localstorage.set('photosCount', photosCount);
 
     // print them out for sanity
     console.log('duration:            ' + $scope.durVal);
     console.log('frequency:           ' + $scope.freqVal);
     console.log('total no. of photos: ' + photosCount);
     
-    // this function doesn't do anything except for console.log
+    
+
+    // as long as the number of photos taken is less than the number of photos we are trying to take
+    if( $scope.photosTaken < photosCount) 
+      // ask user to take a photo every frequency * 60 seconds/ minute * 1000 millis/second
+      $interval( function(){ $scope.callAtInterval(); }, $scope.freqVal*60000);
+
     $scope.callAtInterval = function() {
+      //if the amount of photos we've taken is less than the amount we are going to take
       if( $scope.photosTaken < photosCount) 
       { 
         // console message to let me know that an interval occurred
@@ -97,7 +117,10 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.services', 'myFactory'
 
         //declare a variable, whose name is photoN where N = the photo number
         //define this variable as equal to the number of photos taken (for now)
-        $localstorage.set('photo' + $scope.photosTaken, $scope.photosTaken);
+        //$localstorage.set('photo' + $scope.photosTaken, $scope.photosTaken);
+
+        //get a photo, and pass it the name of the variable that we want to give the imageURI
+        $scope.getPhoto('photo' + $scope.photosTaken);
 
         // log to see if the variable here is in fact what we expect it to be
         console.log("variable photo" + $scope.photosTaken + " is equal to " + $localstorage.get('photo' + $scope.photosTaken, 'undefined') );
@@ -107,23 +130,22 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.services', 'myFactory'
       }
     }
 
-    // as long as the number of photos taken is less than the number of photos we are trying to take
-    if( $scope.photosTaken < photosCount) 
-      // ask user to take a photo every frequency * 60 seconds/ minute * 1000 millis/second
-      $interval( function(){ $scope.callAtInterval(); }, $scope.freqVal*60000);
+    // every three seconds, call function
+    $timeout( function(){ $scope.callAtTimeout(); }, $scope.durVal*60000);
 
     // this function doesn't do anything except for console.log
     $scope.callAtTimeout = function() {
         console.log("$scope.callAtInterval - Timeout occurred");
+        $location.url('/selectPhoto');
     }
 
-    // every three seconds, call function
-    $timeout( function(){ $scope.callAtTimeout(); }, 10000);
-
-    $scope.getPhoto = function() {
+    $scope.getPhoto = function(imageName) {
       Camera.getPicture().then(function(imageURI) {
         console.log(imageURI);
-        $scope.lastPhoto = imageURI;
+
+        //set the name of the image (something like photo1) equal to whatever imageURI is
+        $localstorage.set(imageName,imageURI);
+
       }, function(err) {
         console.err(err);
       }, {
@@ -134,4 +156,16 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.services', 'myFactory'
       });
       $scope.photosTaken++;
     };
+  })
+
+  //this is the controller for selecting photos
+  .controller('SelectCtrl', function($scope, Camera, $localstorage) {
+    $scope.durVal = $localstorage.get('durVal',60);
+    $scope.freqVal =  $localstorage.get('freqVal',10);
+    $scope.photosCount =  $localstorage.get('photosCount',10);
+
+    $scope.photo1 = $localstorage.get('photo1');
+    $scope.photo2 = $localstorage.get('photo2');
+    $scope.photo3 = $localstorage.get('photo3');
+
   });
