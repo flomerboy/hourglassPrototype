@@ -10,13 +10,13 @@
 	  <div class="item range range-positive">
 	    <i class="icon ion-clock"></i>
 	    <p class="sideMenuLabel">duration</p>
-	    <input id = "duration" type="range" name="volume" min=".5" max="90" value="{{durVal}}" ng-model="durVal">
+	    <input id = "duration" type="range" name="volume" min="30" max="120" value="{{durVal}}" step="{{freqVal}}" ng-model="durVal">
 	    <p id="sliderValue">{{durVal}} min</p>
 	  </div>
 	  <div class="item range range-positive">
 	    <i class="icon ion-speedometer"></i>
 	    <p class="sideMenuLabel">frequency</p>
-	    <input id = "frequency" type="range" name="volume" min=".1" max="30" value="{{freqVal}}" ng-model="freqVal">
+	    <input id = "frequency" type="range" name="volume" min="2" max="15" value="{{freqVal}}" step="1" ng-model="freqVal">
 	    <p id="sliderValue">{{freqVal}} min</p>
 	  </div>
 	  <div class="item item-button-right">
