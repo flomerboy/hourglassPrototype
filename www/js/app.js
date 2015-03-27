@@ -88,11 +88,29 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.services', 'myFactory'
     
     // this function doesn't do anything except for console.log
     $scope.callAtInterval = function() {
+      if( $scope.photosTaken < photosCount) 
+      { 
+        // console message to let me know that an interval occurred
         console.log("$scope.callAtInterval - Interval occurred");
+        // a photo has been taken!
+        $scope.photosTaken = $scope.photosTaken + 1;
+
+        //declare a variable, whose name is photoN where N = the photo number
+        //define this variable as equal to the number of photos taken (for now)
+        $localstorage.set('photo' + $scope.photosTaken, $scope.photosTaken);
+
+        // log to see if the variable here is in fact what we expect it to be
+        console.log("variable photo" + $scope.photosTaken + " is equal to " + $localstorage.get('photo' + $scope.photosTaken, 'undefined') );
+
+        // confirm that the variable has actually been changed
+        console.log("I think you've taken " + $scope.photosTaken + " photos" );
+      }
     }
 
-    // every three seconds, call function
-    $interval( function(){ $scope.callAtInterval(); }, 3000);
+    // as long as the number of photos taken is less than the number of photos we are trying to take
+    if( $scope.photosTaken < photosCount) 
+      // ask user to take a photo every frequency * 60 seconds/ minute * 1000 millis/second
+      $interval( function(){ $scope.callAtInterval(); }, $scope.freqVal*60000);
 
     // this function doesn't do anything except for console.log
     $scope.callAtTimeout = function() {
