@@ -65,6 +65,9 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.services', 'myFactory'
 
     $scope.setSettings = function(newDurVal, newFreqVal){
 
+        //clear local storage
+        localStorage.clear();
+
         // This sets durVal and freqVal equal to the newDurVal and newFreqVal that we passed in
         $localstorage.set('durVal',newDurVal);
         $localstorage.set('freqVal',newFreqVal);
@@ -90,40 +93,37 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.services', 'myFactory'
 
     $scope.durVal = $localstorage.get('durVal',60);
     $scope.freqVal =  $localstorage.get('freqVal',10);
-    var photosCount = parseInt($scope.durVal / $scope.freqVal);
+
+    //the amount of photos we want to take
+    $scope.photosCount = parseInt($scope.durVal / $scope.freqVal);
+    $localstorage.set('photosCount', $scope.photosCount);
+    //the amount of photos we have taken so far
     $scope.photosTaken = 0;
-    $localstorage.set('photosCount', photosCount);
 
     // print them out for sanity
     console.log('duration:            ' + $scope.durVal);
     console.log('frequency:           ' + $scope.freqVal);
-    console.log('total no. of photos: ' + photosCount);
+    console.log('expecting x photos:  ' + $scope.photosCount);
     
-    
-
-    // as long as the number of photos taken is less than the number of photos we are trying to take
-    if( $scope.photosTaken < photosCount) 
-      // ask user to take a photo every frequency * 60 seconds/ minute * 1000 millis/second
-      $interval( function(){ $scope.callAtInterval(); }, $scope.freqVal*60000);
+    // ask user to take a photo every frequency * 60 seconds/ minute * 1000 millis/second
+    $interval( function(){ $scope.callAtInterval(); }, $scope.freqVal*60000);
 
     $scope.callAtInterval = function() {
       //if the amount of photos we've taken is less than the amount we are going to take
-      if( $scope.photosTaken < photosCount) 
+      if( $scope.photosTaken < $scope.photosCount)
       { 
-        // console message to let me know that an interval occurred
-        console.log("$scope.callAtInterval - Interval occurred");
-        // a photo has been taken!
-        $scope.photosTaken = $scope.photosTaken + 1;
+        //console message to let me know that an interval occurred
+        //console.log("$scope.callAtInterval - Interval occurred");
 
         //declare a variable, whose name is photoN where N = the photo number
         //define this variable as equal to the number of photos taken (for now)
         //$localstorage.set('photo' + $scope.photosTaken, $scope.photosTaken);
 
         //get a photo, and pass it the name of the variable that we want to give the imageURI
-        $scope.getPhoto('photo' + $scope.photosTaken);
+        $scope.getPhoto("photo" + $scope.photosTaken);
 
         // log to see if the variable here is in fact what we expect it to be
-        console.log("variable photo" + $scope.photosTaken + " is equal to " + $localstorage.get('photo' + $scope.photosTaken, 'undefined') );
+        //console.log("variable photo" + $scope.photosTaken + " is equal to " + $localstorage.get("photo" + $scope.photosTaken , 'undefined') );
 
         // confirm that the variable has actually been changed
         console.log("I think you've taken " + $scope.photosTaken + " photos" );
@@ -141,10 +141,15 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.services', 'myFactory'
 
     $scope.getPhoto = function(imageName) {
       Camera.getPicture().then(function(imageURI) {
-        console.log(imageURI);
 
         //set the name of the image (something like photo1) equal to whatever imageURI is
         $localstorage.set(imageName,imageURI);
+
+        //print out the imageURI
+        console.log("saved: " + imageName + " = " + imageURI);
+
+        //register that we just took an image
+        $scope.photosTaken++;
 
       }, function(err) {
         console.err(err);
@@ -154,7 +159,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.services', 'myFactory'
         targetHeight: 320,
         saveToPhotoAlbum: false
       });
-      $scope.photosTaken++;
+      
     };
   })
 
@@ -164,8 +169,30 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.services', 'myFactory'
     $scope.freqVal =  $localstorage.get('freqVal',10);
     $scope.photosCount =  $localstorage.get('photosCount',10);
 
-    $scope.photo1 = $localstorage.get('photo1');
-    $scope.photo2 = $localstorage.get('photo2');
-    $scope.photo3 = $localstorage.get('photo3');
+    $scope.photo0 =  $localstorage.get('photo0');
+    $scope.photo1 =  $localstorage.get('photo1');
+    $scope.photo2 =  $localstorage.get('photo2');
+    $scope.photo3 =  $localstorage.get('photo3');
+    $scope.photo4 =  $localstorage.get('photo4');
+    $scope.photo5 =  $localstorage.get('photo5');
+    $scope.photo6 =  $localstorage.get('photo6');
+    $scope.photo7 =  $localstorage.get('photo7');
+    $scope.photo8 =  $localstorage.get('photo8');
+    $scope.photo9 =  $localstorage.get('photo9');
+    $scope.photo10 = $localstorage.get('photo10');
+    $scope.photo11 = $localstorage.get('photo11');
+    $scope.photo12 = $localstorage.get('photo12');
+    $scope.photo13 = $localstorage.get('photo13');
+    $scope.photo14 = $localstorage.get('photo14');
+    $scope.photo15 = $localstorage.get('photo15');
+    $scope.photo16 = $localstorage.get('photo16');
+    $scope.photo17 = $localstorage.get('photo17');
+
+    console.log($scope.photo0);
+    console.log($scope.photo1);
+    console.log($scope.photo2);
+    console.log($scope.photo3);
+    console.log($scope.photo4);
+
 
   });

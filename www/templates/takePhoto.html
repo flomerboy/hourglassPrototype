@@ -9,9 +9,7 @@
 			<img height=270 src="img/glassGIF2.gif" style="position: absolute; top: 30px;"/>
 	  		<img src="img/glassGIF.gif" style="position: relative; top: 0; left: 0;"/>
 		    <button class="button button-block button-primary" ng-click="getPhoto()">get a Picture</button>
-		    <p ng-model="photosTaken">{{photosTaken}}</p>
-		    <img style="max-width=90%" id="myImage" ng-src="{{lastPhoto}}"></img>
-
+		    <p ng-model="photosTaken">{{photosTaken}}</p><p ng-model="photosCount">/ {{photosCount}}</p>
 	    </center>
 	</ion-content>
 </ion-view>

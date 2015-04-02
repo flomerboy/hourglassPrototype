@@ -1,3 +1,8 @@
 #myImage {
 	max-width: 90%;
 }
+
+.choosePhoto{
+	max-height: 100px;
+	display: block;
+}
