@@ -21,7 +21,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.services', 'myFactory'
   .config(function($stateProvider, $urlRouterProvider, $compileProvider) {
 
     // honestly not sure what this does. probably something to make sure that the image is legible angular
-    $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
+    $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|file|blob|cdvfile|content):|data:image\//);
 
     $stateProvider
 
@@ -140,7 +140,15 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.services', 'myFactory'
     }
 
     $scope.getPhoto = function(imageName) {
-      Camera.getPicture().then(function(imageURI) {
+
+      var options = {
+        quality: 75,
+        targetWidth: 320,
+        targetHeight: 320,
+        saveToPhotoAlbum: false
+      };
+
+      Camera.getPicture(options).then(function(imageURI) {
 
         //set the name of the image (something like photo1) equal to whatever imageURI is
         $localstorage.set(imageName,imageURI);
@@ -153,13 +161,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.services', 'myFactory'
 
       }, function(err) {
         console.err(err);
-      }, {
-        quality: 75,
-        targetWidth: 320,
-        targetHeight: 320,
-        saveToPhotoAlbum: false
       });
-      
+
     };
   })
 
@@ -188,6 +191,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.services', 'myFactory'
     $scope.photo15 = $localstorage.get('photo15', altURI);
     $scope.photo16 = $localstorage.get('photo16', altURI);
     $scope.photo17 = $localstorage.get('photo17', altURI);
+    
 
     console.log($scope.photo0);
     console.log($scope.photo1);
