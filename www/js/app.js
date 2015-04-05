@@ -21,7 +21,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.services', 'myFactory'
   .config(function($stateProvider, $urlRouterProvider, $compileProvider) {
 
     // honestly not sure what this does. probably something to make sure that the image is legible angular
-    $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob|content):|data:image\//);
+    $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
 
     $stateProvider
 
