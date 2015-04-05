@@ -21,7 +21,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.services', 'myFactory'
   .config(function($stateProvider, $urlRouterProvider, $compileProvider) {
 
     // honestly not sure what this does. probably something to make sure that the image is legible angular
-    $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
+    $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob|content):|data:image\//);
 
     $stateProvider
 
@@ -130,7 +130,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.services', 'myFactory'
       }
     }
 
-    // every three seconds, call function
+    // leave this view after duration * 60 seconds/ minute * 1000 millis/second
     $timeout( function(){ $scope.callAtTimeout(); }, $scope.durVal*60000);
 
     // this function doesn't do anything except for console.log
@@ -146,7 +146,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.services', 'myFactory'
         $localstorage.set(imageName,imageURI);
 
         //print out the imageURI
-        console.log("saved: " + imageName + " = " + imageURI);
+        console.log("saved: " + imageName + " = " + $localstorage.get(imageName,'undefined'));
 
         //register that we just took an image
         $scope.photosTaken++;
@@ -165,34 +165,34 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.services', 'myFactory'
 
   //this is the controller for selecting photos
   .controller('SelectCtrl', function($scope, Camera, $localstorage) {
+    var altURI = "img/100x100.gif";
     $scope.durVal = $localstorage.get('durVal',60);
     $scope.freqVal =  $localstorage.get('freqVal',10);
     $scope.photosCount =  $localstorage.get('photosCount',10);
 
-    $scope.photo0 =  $localstorage.get('photo0');
-    $scope.photo1 =  $localstorage.get('photo1');
-    $scope.photo2 =  $localstorage.get('photo2');
-    $scope.photo3 =  $localstorage.get('photo3');
-    $scope.photo4 =  $localstorage.get('photo4');
-    $scope.photo5 =  $localstorage.get('photo5');
-    $scope.photo6 =  $localstorage.get('photo6');
-    $scope.photo7 =  $localstorage.get('photo7');
-    $scope.photo8 =  $localstorage.get('photo8');
-    $scope.photo9 =  $localstorage.get('photo9');
-    $scope.photo10 = $localstorage.get('photo10');
-    $scope.photo11 = $localstorage.get('photo11');
-    $scope.photo12 = $localstorage.get('photo12');
-    $scope.photo13 = $localstorage.get('photo13');
-    $scope.photo14 = $localstorage.get('photo14');
-    $scope.photo15 = $localstorage.get('photo15');
-    $scope.photo16 = $localstorage.get('photo16');
-    $scope.photo17 = $localstorage.get('photo17');
+    $scope.photo0 =  $localstorage.get('photo0', altURI);
+    $scope.photo1 =  $localstorage.get('photo1', altURI);
+    $scope.photo2 =  $localstorage.get('photo2', altURI);
+    $scope.photo3 =  $localstorage.get('photo3', altURI);
+    $scope.photo4 =  $localstorage.get('photo4', altURI);
+    $scope.photo5 =  $localstorage.get('photo5', altURI);
+    $scope.photo6 =  $localstorage.get('photo6', altURI);
+    $scope.photo7 =  $localstorage.get('photo7', altURI);
+    $scope.photo8 =  $localstorage.get('photo8', altURI);
+    $scope.photo9 =  $localstorage.get('photo9', altURI);
+    $scope.photo10 = $localstorage.get('photo10', altURI);
+    $scope.photo11 = $localstorage.get('photo11', altURI);
+    $scope.photo12 = $localstorage.get('photo12', altURI);
+    $scope.photo13 = $localstorage.get('photo13', altURI);
+    $scope.photo14 = $localstorage.get('photo14', altURI);
+    $scope.photo15 = $localstorage.get('photo15', altURI);
+    $scope.photo16 = $localstorage.get('photo16', altURI);
+    $scope.photo17 = $localstorage.get('photo17', altURI);
 
     console.log($scope.photo0);
     console.log($scope.photo1);
     console.log($scope.photo2);
     console.log($scope.photo3);
     console.log($scope.photo4);
-
 
   });
